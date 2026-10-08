@@ -1,0 +1,184 @@
+# Lifecycle progress graph for the demo run. `ready` is derived; never store it.
+# Owned by the piro-workflow-steward (sync mode). Evidence paths are repo-relative and must exist.
+version: 1
+run_id: 2026-10-08-001-demo-healthz-endpoint
+updated: 2026-10-08
+
+nodes:
+  - id: plan.research.business
+    title: Business research
+    area: plan
+    stream: research-business
+    kind: artifact
+    state: not_applicable
+    updated_at: 2026-10-08
+    depends_on: []
+    evidence: []
+    rationale: Internal operational capability; no commercial question to research.
+
+  - id: plan.research.ux
+    title: UX research
+    area: plan
+    stream: research-ux
+    kind: artifact
+    state: not_applicable
+    updated_at: 2026-10-08
+    depends_on: []
+    evidence: []
+    rationale: No end-user surface; the only consumer is the platform probe.
+
+  - id: plan.research.technology
+    title: Technology research - probe options
+    area: plan
+    stream: research-technology
+    kind: artifact
+    state: done
+    updated_at: 2026-10-08
+    depends_on: []
+    producer: manual research
+    evidence:
+      - { type: canonical_artifact, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/01-research-intent/technology/healthz-options.md }
+
+  - id: plan.prd
+    title: PRD-001 Liveness endpoint
+    area: plan
+    stream: planning
+    kind: artifact
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [plan.research.business, plan.research.ux, plan.research.technology]
+    producer: piro-planner / product owner
+    description: Run framing and acceptance criteria; approved by the product owner.
+    evidence:
+      - { type: canonical_artifact, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/02-planning/prd-001-healthz-endpoint.md }
+
+  - id: plan.scope
+    title: Scope
+    area: plan
+    stream: planning
+    kind: artifact
+    state: not_applicable
+    updated_at: 2026-10-08
+    depends_on: [plan.prd]
+    evidence: []
+    rationale: Scope and non-goals are PRD-001 section 4.
+
+  - id: plan.roadmap
+    title: Roadmap
+    area: plan
+    stream: planning
+    kind: artifact
+    state: not_applicable
+    updated_at: 2026-10-08
+    depends_on: [plan.prd]
+    evidence: []
+    rationale: Single work package; no roadmap needed.
+
+  - id: plan.specs
+    title: Spec - GET /healthz
+    area: plan
+    stream: solutioning-specs
+    kind: artifact
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [plan.prd]
+    producer: spec producer
+    evidence:
+      - { type: canonical_artifact, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/specs/healthz-endpoint.md }
+
+  - id: plan.design
+    title: Design
+    area: plan
+    stream: solutioning-design
+    kind: artifact
+    state: not_applicable
+    updated_at: 2026-10-08
+    depends_on: [plan.prd]
+    evidence: []
+    rationale: One route; no UX or system design beyond the spec and sequence diagram.
+
+  - id: plan.decisions
+    title: ADR-001 Liveness-only probe
+    area: plan
+    stream: solutioning-decisions
+    kind: artifact
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [plan.prd]
+    producer: domain-modeling / explicit decision authoring
+    evidence:
+      - { type: canonical_artifact, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/decisions/ADR-001-liveness-only-probe.md }
+
+  - id: DEMO-01
+    title: Add GET /healthz liveness endpoint
+    area: implement
+    stream: work-packages
+    kind: work_package
+    execution: AFK
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [plan.prd, plan.specs, plan.design, plan.decisions]
+    producer: piro-implementer
+    local_only: true
+    evidence:
+      - { type: work_package, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/issues/demo-01-healthz-endpoint.md }
+      - { type: implementation_note, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/implementation-notes/demo-01-implementation.md }
+
+  - id: review.automated-tests
+    title: Unit tests, lint and load check
+    area: review
+    stream: automated_tests
+    kind: review
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [DEMO-01]
+    producer: piro-implementer
+    evidence:
+      - { type: review_result, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/03-review/test-results/demo-01-validation.md, outcome: passed }
+
+  - id: review.code-review
+    title: Code review of DEMO-01
+    area: review
+    stream: code_review
+    kind: review
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [DEMO-01]
+    producer: piro-reviewer
+    evidence:
+      - { type: review_result, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/03-review/reviews/demo-01-review.md, outcome: accepted }
+
+  - id: review.security
+    title: Security review
+    area: review
+    stream: security
+    kind: review
+    state: not_applicable
+    updated_at: 2026-10-08
+    depends_on: [DEMO-01]
+    evidence: []
+    rationale: Unauthenticated route returns a constant body and performs no I/O.
+
+  - id: ops.runbook
+    title: Runbook - probe failure
+    area: ops
+    stream: runbooks
+    kind: artifact
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [DEMO-01]
+    producer: operational owner
+    evidence:
+      - { type: canonical_artifact, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/04-ops/runbooks/healthz-probe-failure.md }
+
+  - id: ops.release-readiness
+    title: Release readiness
+    area: ops
+    stream: release
+    kind: release
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [review.automated-tests, review.code-review, ops.runbook]
+    producer: product owner
+    evidence:
+      - { type: release_decision, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/04-ops/releases/release-readiness.md, outcome: go }

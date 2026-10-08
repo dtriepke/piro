@@ -1,0 +1,80 @@
+name: Workflow dashboard
+
+# Checks that the committed piro/dashboard/index.html is fresh and publishes
+# it as a build artifact. Deploying to GitHub Pages is opt-in: set the repository
+# variable WORKFLOW_DASHBOARD_PAGES_PRIVATE=true only once Pages access is private
+# (the dashboard exposes internal workflow state).
+
+on:
+  pull_request:
+    paths:
+      - 'piro/**'
+      - 'piro/tooling/validate-workflow.ts'
+      - 'piro/tooling/workflow-progress.ts'
+      - 'piro/tooling/workflow-dashboard.ts'
+      - 'piro/tooling/workflow-dashboard/**'
+  push:
+    branches: [main]
+    paths:
+      - 'piro/**'
+      - 'piro/tooling/validate-workflow.ts'
+      - 'piro/tooling/workflow-progress.ts'
+      - 'piro/tooling/workflow-dashboard.ts'
+      - 'piro/tooling/workflow-dashboard/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: workflow-dashboard-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate workflow artifacts and progress graphs
+        run: npm run validate:workflow
+
+      - name: Check committed dashboard is fresh
+        run: npm run workflow:dashboard -- --check
+
+      - name: Upload dashboard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-dashboard
+          path: piro/dashboard
+          retention-days: 30
+
+      - name: Upload Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.WORKFLOW_DASHBOARD_PAGES_PRIVATE == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: piro/dashboard
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.WORKFLOW_DASHBOARD_PAGES_PRIVATE == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

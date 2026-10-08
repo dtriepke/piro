@@ -1,0 +1,9 @@
+# Runs Index
+
+Project-wide overview of all runs under `piro/runs/`. See [.github/copilot-instructions.md](../.github/copilot-instructions.md) for the artifact convention (Run ID format, Core Rules, lifecycle folders).
+
+This table is a **derived summary**. Run artifacts own their content and decisions; each run's root `workflow-progress.yaml` owns lifecycle status and dependencies; `piro/workflow.yaml` owns canonical pointers, declared phase, and last activity. If this table disagrees with those authorities, report the drift and correct this derived summary rather than inferring a new canonical path.
+
+| Run ID | PRD | Phase | Issues | Last Activity |
+|---|---|---|---|---|
+| 2026-10-08-001-demo-healthz-endpoint | [PRD-001 Liveness endpoint (Approved, demo)](runs/2026-10-08-001-demo-healthz-endpoint/01-plan/02-planning/prd-001-healthz-endpoint.md); [Spec](runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/specs/healthz-endpoint.md); [ADR-001](runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/decisions/ADR-001-liveness-only-probe.md) | OPS | [DEMO-01](runs/2026-10-08-001-demo-healthz-endpoint/02-implement/issues/demo-01-healthz-endpoint.md) done (1/1, local only, no phases); [review](runs/2026-10-08-001-demo-healthz-endpoint/03-review/reviews/demo-01-review.md) accepted; [release](runs/2026-10-08-001-demo-healthz-endpoint/04-ops/releases/release-readiness.md) go; [progress graph](runs/2026-10-08-001-demo-healthz-endpoint/workflow-progress.yaml) | 2026-10-08 |

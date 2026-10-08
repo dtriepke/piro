@@ -1,0 +1,7 @@
+interface:
+  display_name: "PIRO Reviewer"
+  short_description: "Review repository changes"
+  default_prompt: "Use $piro-reviewer to review the current repository changes against requirements and tests."
+
+policy:
+  allow_implicit_invocation: true

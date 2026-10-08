@@ -1,0 +1,86 @@
+name: Smart Journey service
+
+on:
+  pull_request:
+    paths:
+      - 'services/smart-journey/**'
+      - 'supabase/migrations/**'
+      - 'src/integrations/journey/**'
+      - 'src/components/journey/**'
+      - 'src/components/privacy/**'
+      - 'src/hooks/useJourney.ts'
+      - 'src/hooks/usePrivacyJobs.ts'
+      - 'src/pages/GuestJourneyPage.tsx'
+      - 'src/pages/AccountDeletionStatusPage.tsx'
+      - 'src/components/hub/SettingsTab.tsx'
+      - 'e2e/journey/**'
+      - 'piro/runs/2026-09-20-001-smart-journey-agent/00-context/reconciled_knowledge/**'
+      - 'piro/runs/2026-09-20-001-smart-journey-agent/01-plan/03-solutioning/specs/spec-smart-journey-agent/safety-authority-policy.yaml'
+      - 'piro/runs/2026-09-20-001-smart-journey-agent/01-plan/03-solutioning/specs/spec-smart-journey-agent/safety-copy-pack.json'
+      - '.github/workflows/smart-journey.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/smart-journey
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      SJA_TEST_ADMIN_URL: postgresql://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install locked dependencies
+        run: uv sync --locked
+
+      - name: Lint
+        run: uv run ruff check src tests && uv run ruff format --check src tests
+
+      - name: Type-check
+        run: uv run mypy src
+
+      - name: Unit, snapshot and Postgres integration tests
+        run: uv run pytest -q
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test -- --run
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate safety contract
+        run: npm run validate:safety
+
+      - name: Lint (journey/privacy surfaces)
+        run: npx eslint src/components/journey src/hooks/useJourney.ts src/hooks/usePrivacyJobs.ts src/pages/GuestJourneyPage.tsx src/pages/AccountDeletionStatusPage.tsx src/integrations/journey

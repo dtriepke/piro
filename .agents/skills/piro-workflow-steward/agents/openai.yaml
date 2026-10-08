@@ -1,0 +1,7 @@
+interface:
+  display_name: "PIRO Workflow Steward"
+  short_description: "Manage workflow runs and state"
+  default_prompt: "Use $piro-workflow-steward to find the relevant run, report its status, and identify the next action."
+
+policy:
+  allow_implicit_invocation: true
