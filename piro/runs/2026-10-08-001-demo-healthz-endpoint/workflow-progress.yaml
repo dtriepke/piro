@@ -72,7 +72,7 @@ nodes:
     updated_at: 2026-10-08
     depends_on: [plan.prd]
     evidence: []
-    rationale: Single work package; no roadmap needed.
+    rationale: Issue graph is the breakdown; no separate roadmap.
 
   - id: plan.specs
     title: Spec - GET /healthz
@@ -124,6 +124,51 @@ nodes:
       - { type: work_package, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/issues/demo-01-healthz-endpoint.md }
       - { type: implementation_note, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/implementation-notes/demo-01-implementation.md }
 
+  - id: DEMO-02
+    title: Configure platform liveness probe
+    area: implement
+    stream: work-packages
+    kind: work_package
+    execution: AFK
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [DEMO-01]
+    producer: piro-implementer
+    local_only: true
+    evidence:
+      - { type: work_package, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/issues/demo-02-platform-probe.md }
+      - { type: implementation_note, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/implementation-notes/demo-02-probe-config.md }
+
+  - id: DEMO-03
+    title: Publish probe-failure steps to on-call
+    area: implement
+    stream: work-packages
+    kind: work_package
+    execution: HITL
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [DEMO-01]
+    producer: piro-implementer
+    local_only: true
+    evidence:
+      - { type: work_package, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/issues/demo-03-oncall-publish.md }
+      - { type: implementation_note, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/implementation-notes/demo-03-oncall-publish.md }
+
+  - id: DEMO-04
+    title: Gate release on the latency check
+    area: implement
+    stream: work-packages
+    kind: work_package
+    execution: MIXED
+    state: done
+    updated_at: 2026-10-08
+    depends_on: [DEMO-02, DEMO-03]
+    producer: piro-implementer
+    local_only: true
+    evidence:
+      - { type: work_package, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/issues/demo-04-latency-gate.md }
+      - { type: implementation_note, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/implementation-notes/demo-04-latency-gate.md }
+
   - id: review.automated-tests
     title: Unit tests, lint and load check
     area: review
@@ -131,19 +176,19 @@ nodes:
     kind: review
     state: done
     updated_at: 2026-10-08
-    depends_on: [DEMO-01]
+    depends_on: [DEMO-01, DEMO-02, DEMO-03, DEMO-04]
     producer: piro-implementer
     evidence:
       - { type: review_result, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/03-review/test-results/demo-01-validation.md, outcome: passed }
 
   - id: review.code-review
-    title: Code review of DEMO-01
+    title: Code review of DEMO-01..04
     area: review
     stream: code_review
     kind: review
     state: done
     updated_at: 2026-10-08
-    depends_on: [DEMO-01]
+    depends_on: [DEMO-01, DEMO-02, DEMO-03, DEMO-04]
     producer: piro-reviewer
     evidence:
       - { type: review_result, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/03-review/reviews/demo-01-review.md, outcome: accepted }
@@ -155,7 +200,7 @@ nodes:
     kind: review
     state: not_applicable
     updated_at: 2026-10-08
-    depends_on: [DEMO-01]
+    depends_on: [DEMO-01, DEMO-02, DEMO-03, DEMO-04]
     evidence: []
     rationale: Unauthenticated route returns a constant body and performs no I/O.
 
@@ -166,7 +211,7 @@ nodes:
     kind: artifact
     state: done
     updated_at: 2026-10-08
-    depends_on: [DEMO-01]
+    depends_on: [DEMO-03]
     producer: operational owner
     evidence:
       - { type: canonical_artifact, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/04-ops/runbooks/healthz-probe-failure.md }
@@ -178,7 +223,7 @@ nodes:
     kind: release
     state: done
     updated_at: 2026-10-08
-    depends_on: [review.automated-tests, review.code-review, ops.runbook]
+    depends_on: [review.automated-tests, review.code-review, ops.runbook, DEMO-04]
     producer: product owner
     evidence:
       - { type: release_decision, path: piro/runs/2026-10-08-001-demo-healthz-endpoint/04-ops/releases/release-readiness.md, outcome: go }

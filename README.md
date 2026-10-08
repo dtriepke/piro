@@ -1,6 +1,6 @@
 # PIRO blueprint
 
-A portable hand-over package of the **PIRO** agent workflow: four agent roles, one artifact chain, one status graph, one board. Extracted from NeuroLink Connect (`b8d5011`) with the product code removed and **one complete demo run** added.
+A portable hand-over package of the **PIRO** agent workflow: four agent roles, one artifact chain, one status graph, one board. Extracted from a product repository (`b8d5011`) with the product code removed and **one complete demo run** added.
 
 ![PIRO](piro/dashboard/ChatGPT%20Image%2030%20Sept%202026%2C%2010_44_28.png)
 
@@ -83,7 +83,7 @@ package.json tsconfig.json vitest.config.ts   Node ≥ 20: tsx, vitest, yaml, ty
 
 ## 5. The demo run
 
-`piro/runs/2026-10-08-001-demo-healthz-endpoint/` is a **fictional** end-to-end run (a `/healthz` liveness endpoint) with **one issue, no sub-issues/phases**. It touches every stage: research → PRD → spec → ADR → diagram → issue → plan → implementation notes → validation → review → release → runbook, all `done` in `workflow-progress.yaml`. Use it as a template: copy the folder, rename the run ID, and rewrite the content. Its source evidence is an implementation note because the demo has no real code.
+`piro/runs/2026-10-08-001-demo-healthz-endpoint/` is a **fictional** end-to-end run (an Acme API `/healthz` liveness endpoint) with **four issues (DEMO-01..04)** and a dependency graph so the dashboard Implement tab shows waves and edges. It is still fictional, all done, and has no real code. It touches every stage: research → PRD → spec → ADR → diagram → issues → plans → implementation notes → validation → review → release → runbook, all `done` in `workflow-progress.yaml`. Use it as a template: copy the folder, rename the run ID, and rewrite the content. Its source evidence is an implementation note because the demo has no real code.
 
 ## 6. Adopt in another project
 
@@ -106,6 +106,5 @@ npm run workflow:dashboard -- --check
 
 ## 8. Known gaps of this blueprint
 
-- The Copilot originals from NeuroLink Connect were not inspected; adapters here are templates derived from the skill contracts (audit §1, §5).
+- The source-product Copilot originals in `.github/agents/` were not inspected; adapters here are templates derived from the skill contracts (audit §1, §5).
 - `.github/agents/model-selection.md` (planner Section 15) and the optional producer skills (`to-pid`, `domain-modeling`, `grilling-to-brief`, `to-issues`) are not included.
-- The skills still mention NeuroLink-flavoured details (e.g. `.github/design/DESIGN.md` for "React app UI work"); they are conditional and harmless elsewhere.

@@ -1,7 +1,7 @@
-# DESIGN.md — NeuroLink Visual Design Reference
+# DESIGN.md — Acme Visual Design Reference
 
 > **Maintained by the `piro-ux-designer` agent.**
-> This is the living visual design authority for the NeuroLink v2 implementation.  
+> This is the living visual design authority for the Acme v2 implementation.  
 > Full specification: `.github/design/brand-system.md`  
 > Legacy v1 reference (read-only): `design-concept/`
 

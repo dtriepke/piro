@@ -1,4 +1,4 @@
-# NeuroLink Connect — Project Instructions
+# Acme — Project Instructions
 
 ## Stack
 

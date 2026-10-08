@@ -1,6 +1,6 @@
 # Design & Brand
 
-This folder is the **single source of truth for all design and brand decisions** in NeuroLink Connect.
+This folder is the **single source of truth for all design and brand decisions** in Acme Connect.
 
 > Agents: read this folder before designing or planning any UI-facing work.
 

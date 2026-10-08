@@ -23,7 +23,7 @@ runs:
       prd: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/02-planning/prd-001-healthz-endpoint.md
       spec: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/specs/healthz-endpoint.md
       decision: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/decisions/ADR-001-liveness-only-probe.md
-      issue_register: piro/runs/2026-10-08-001-demo-healthz-endpoint/02-implement/issues/demo-01-healthz-endpoint.md
+      issue_register: piro/runs/2026-10-08-001-demo-healthz-endpoint/01-plan/03-solutioning/issues/decomposition.md
       issue_graph: piro/runs/2026-10-08-001-demo-healthz-endpoint/workflow-progress.yaml
       progress_graph: piro/runs/2026-10-08-001-demo-healthz-endpoint/workflow-progress.yaml
       review: piro/runs/2026-10-08-001-demo-healthz-endpoint/03-review/reviews/demo-01-review.md

@@ -45,4 +45,16 @@ The platform can detect a hung instance within 30 seconds and restart it automat
 
 ## 7. Work breakdown
 
-One work package: [DEMO-01](../../02-implement/issues/demo-01-healthz-endpoint.md). No sub-issues.
+Four sibling issues for Acme API. They are not phases of DEMO-01. Dependency diamond:
+
+```
+DEMO-01
+  ├─► DEMO-02
+  └─► DEMO-03
+         └─► DEMO-04  (depends on DEMO-02 and DEMO-03)
+```
+
+- [DEMO-01](../../02-implement/issues/demo-01-healthz-endpoint.md) — route, auth exemption, and unit tests (grandfathered contract).
+- [DEMO-02](../03-solutioning/issues/demo-02-platform-probe.md) — configure the platform liveness probe.
+- [DEMO-03](../03-solutioning/issues/demo-03-oncall-publish.md) — publish probe-failure steps to on-call.
+- [DEMO-04](../03-solutioning/issues/demo-04-latency-gate.md) — gate release on the latency check.

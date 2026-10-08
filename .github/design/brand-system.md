@@ -1,6 +1,6 @@
-# NeuroLink Rebrand — Design System Specification
+# Acme Rebrand — Design System Specification
 
-> **This document is the implementation authority for the NeuroLink visual rebrand.**
+> **This document is the implementation authority for the Acme visual rebrand.**
 > It supersedes all color, typography, logo, and component token decisions from the v1 Clarity Care design.
 >
 > - **v1 visual reference (read-only):** `design-concept/` — Clarity Care, Framer export
@@ -17,7 +17,7 @@
 
 The v2 brand moves away from a clinical healthtech aesthetic toward warmth, trust, and emotional closeness. Every visual decision — color, type, image, motion — must ask: *does this feel like a person, or a product?*
 
-| Dimension | Before — v1 Clarity Care | After — v2 NeuroLink |
+| Dimension | Before — v1 Clarity Care | After — v2 Acme |
 |---|---|---|
 | Feeling | Clinical, healthtech, emotional distance | Warmth, trust, emotional closeness |
 | Visual language | Clean-tech, green-dominant palette | Intentional imperfection, editorial serif, documentary imagery |
@@ -117,7 +117,7 @@ Replace all variables in `:root` with:
 
 ```css
 :root {
-  /* NeuroLink v2 palette */
+  /* Acme v2 palette */
   --background:      40 20% 95%;    /* off-white #F6F4EF */
   --foreground:       0  0% 17%;    /* near-black #2B2B2B */
 
@@ -418,7 +418,7 @@ Approved usage: `<CheckCircle2 className="trust-badge" />` on verified specialis
 | `ruthie.png` | ✅ Keep | Real person — do not replace |
 | `dennis.png` | ✅ Keep | Real person — do not replace |
 
-> Imagery sprint completed (rebrand-09). All five section images were replaced with v2 documentary-style photography sourced from `design-concept/images/foto-neurolink*.png`.
+> Imagery sprint completed (rebrand-09). All five section images were replaced with v2 documentary-style photography sourced from `design-concept/images/foto-acme*.png`.
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: piro-workflow-steward
-description: Locate NeuroLink artifacts, report readiness, persist planner and reviewer handoffs, reconcile workflow bookkeeping, and audit `piro/` structure.
+description: Locate workflow artifacts, report readiness, persist planner and reviewer handoffs, reconcile workflow bookkeeping, and audit `piro/` structure.
 ---
 
 # Workflow Steward

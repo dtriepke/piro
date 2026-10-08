@@ -1,7 +1,7 @@
-# EXPERIENCE.md — NeuroLink Behavioral UX Reference
+# EXPERIENCE.md — Acme Behavioral UX Reference
 
 > **Maintained by the `piro-ux-designer` agent.**
-> This is the living behavioral UX authority for NeuroLink.  
+> This is the living behavioral UX authority for Acme.  
 > Visual tokens and component specs: `DESIGN.md`  
 > Full brand spec: `.github/design/brand-system.md`
 

@@ -1,7 +1,0 @@
-interface:
-  display_name: "PIRO Implementer"
-  short_description: "Implement scoped repo changes"
-  default_prompt: "Use $piro-implementer to implement and validate this scoped repository change."
-
-policy:
-  allow_implicit_invocation: true

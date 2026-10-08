@@ -1,6 +1,6 @@
 ---
 name: graph-rag-support-interviewer
-description: Interview a NeuroLink user to narrow the reconciled support knowledge graph and identify the most relevant support domains, expertise, and specialist types. Use when the user asks for a guided support interview, wants help deciding what to prioritize, or wants to find the right specialist or expertise without jumping directly to search results.
+description: Interview an Acme user to narrow the reconciled support knowledge graph and identify the most relevant support domains, expertise, and specialist types. Use when the user asks for a guided support interview, wants help deciding what to prioritize, or wants to find the right specialist or expertise without jumping directly to search results.
 ---
 
 # Graph RAG Support Interviewer
@@ -43,7 +43,7 @@ asks for an audit.
 ## Non-negotiable data rules
 
 1. Treat the user's diagnosis and support-level language as user-provided
-   context, not as a conclusion made by NeuroLink.
+   context, not as a conclusion made by Acme.
 2. Do not confuse an autism support designation such as "Level 2" with the
    graph's L1-L5 condition taxonomy. They describe different concepts.
 3. Exclude category-placeholder conditions from specific-condition matching.

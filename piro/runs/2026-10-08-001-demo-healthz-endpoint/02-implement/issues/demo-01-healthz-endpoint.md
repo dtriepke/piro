@@ -9,6 +9,10 @@
 
 > The issue is the unit of delivery. It is **not** split into phases, so there is one implementation plan and no per-phase files.
 
+## Related issues
+
+Sibling issues, not phases of DEMO-01. See the [decomposition](../../01-plan/03-solutioning/issues/decomposition.md): [DEMO-02](../../01-plan/03-solutioning/issues/demo-02-platform-probe.md), [DEMO-03](../../01-plan/03-solutioning/issues/demo-03-oncall-publish.md), [DEMO-04](../../01-plan/03-solutioning/issues/demo-04-latency-gate.md).
+
 ## Outcome
 `GET /healthz` is live and the platform probe is configured against it.
 
