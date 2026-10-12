@@ -1,6 +1,0 @@
-sequenceDiagram
-  participant P as Platform probe
-  participant A as Acme API
-  P->>A: GET /healthz (every 10 s)
-  A-->>P: 200 {"status":"ok"}
-  Note over P,A: 3 consecutive failures => restart instance

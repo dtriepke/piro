@@ -1,7 +1,0 @@
-interface:
-  display_name: "PIRO Planner"
-  short_description: "Plan scoped repository work"
-  default_prompt: "Use $piro-planner to create an evidence-based implementation plan for this repository change."
-
-policy:
-  allow_implicit_invocation: true

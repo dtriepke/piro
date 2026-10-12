@@ -1,0 +1,186 @@
+schema_version: 1
+process:
+  PLAN:
+    Analyse: [research-intent, planning]
+    Solutioning: [specs, design, decisions]
+skills_root_note: paths below are relative to the workspace skills root (.agents/skills or .github/skills)
+global_suggestions:
+  roots: ["~/.agents/skills", "~/.copilot/skills"]
+  additional_roots: explicitly_exposed_by_copilot_only
+  registration: user_approved_only
+  conflict_policy: always_ask_user
+excluded_operations:
+  - issues
+  - story-breakdown
+  - implementation-planning
+  - implementation
+  - review-release-ops
+  - remote-publishing
+excluded_skills: [which-skill, to-issues, implement, tdd, diagnosing-bugs, code-review, handoff]
+skills:
+  - id: research-background
+    source: project
+    path: research-background/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: Verify feasibility or design questions against primary sources.
+    inputs: [question, constraints, existing-evidence]
+    outputs: [research-findings]
+    invocation: research_worker
+    tools: [read, search, edit, web]
+    prerequisites: []
+    overlaps: [grilling, grill-me, grilling-to-brief, grill-me-to-brief]
+  - id: grilling
+    source: project
+    path: grilling/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: Resolve a decision tree through complete question rounds.
+    inputs: [idea-or-plan, settled-decisions]
+    outputs: [interview-resume-notes]
+    invocation: interactive_relay
+    tools: [read, search]
+    prerequisites: []
+    overlaps: [grill-me, grilling-to-brief, grill-me-to-brief]
+  - id: grill-me
+    source: project
+    path: grill-me/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: User-facing alias of the grilling interview; still requires explicit selection.
+    inputs: [idea-or-plan, settled-decisions]
+    outputs: [interview-resume-notes]
+    invocation: interactive_relay
+    tools: [read, search]
+    prerequisites: []
+    overlaps: [grilling, grilling-to-brief, grill-me-to-brief]
+  - id: grilling-to-brief
+    source: project
+    path: grilling-to-brief/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: Interview in frontier rounds and persist the agreed brief.
+    inputs: [idea-or-plan, settled-decisions]
+    outputs: [context-brief]
+    invocation: interactive_relay
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [grilling, grill-me, grill-me-to-brief]
+  - id: grill-me-to-brief
+    source: project
+    path: grill-me-to-brief/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: Interview one question at a time and persist the agreed brief.
+    inputs: [idea-or-plan, settled-decisions]
+    outputs: [context-brief]
+    invocation: interactive_relay
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [grilling, grill-me, grilling-to-brief]
+  - id: prototype
+    source: project
+    path: prototype/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: Build a throwaway logic or UI prototype inside the run to answer a design question.
+    inputs: [design-question, constraints, relevant-code]
+    outputs: [prototype, verdict]
+    invocation: artifact
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: []
+  - id: teach
+    source: project
+    path: teach/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: Build understanding of an unfamiliar topic through a stateful learning workspace inside the run.
+    inputs: [topic, mission, resources]
+    outputs: [learning-workspace]
+    invocation: interactive_relay
+    tools: [read, search, edit, web]
+    prerequisites: []
+    overlaps: [research-background]
+  - id: to-prd
+    source: project
+    path: to-prd/SKILL.md
+    steps: [Analyse/planning]
+    purpose: Produce the business/product contract separately from technical solutioning.
+    inputs: [research-and-intent, decisions, constraints]
+    outputs: [prd, scope-roadmap]
+    invocation: artifact
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [to-pid]
+  - id: to-pid
+    source: project
+    path: to-pid/SKILL.md
+    steps: [Analyse/planning]
+    purpose: Produce a combined business and technical PID locally; never publish to a tracker.
+    inputs: [research-and-intent, decisions, constraints]
+    outputs: [pid, scope-roadmap]
+    invocation: artifact
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [to-prd]
+  - id: improve-codebase-architecture
+    source: project
+    path: improve-codebase-architecture/SKILL.md
+    steps: [Solutioning/design]
+    purpose: Scan the codebase for deepening opportunities and report them as a design artifact.
+    inputs: [prd, relevant-code]
+    outputs: [design]
+    invocation: interactive_relay
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [codebase-design]
+  - id: grill-with-docs
+    source: project
+    path: grill-with-docs/SKILL.md
+    steps: [Solutioning/decisions]
+    purpose: Interview to sharpen a design while recording ADRs and glossary inside the run.
+    inputs: [prd, design, settled-decisions]
+    outputs: [decision, glossary]
+    invocation: interactive_relay
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [domain-modeling, grilling]
+  - id: to-spec
+    source: project
+    path: to-spec/SKILL.md
+    steps: [Solutioning/specs]
+    purpose: Produce a lightweight repository-grounded SAP technical contract; supporting decisions/design only when needed and assigned.
+    inputs: [prd-or-product-intent, relevant-code, existing-decisions, constraints]
+    outputs: [spec, decision, design]
+    invocation: artifact
+    tools: [read, search, edit, execute/runInTerminal, execute/getTerminalOutput]
+    prerequisites: []
+    overlaps: []
+    excluded_modes: [story-breakdown]
+  - id: codebase-design
+    source: project
+    path: codebase-design/SKILL.md
+    steps: [Solutioning/design]
+    purpose: Design module interfaces and record technical tradeoffs without implementing them.
+    inputs: [prd, relevant-code, design-question]
+    outputs: [design]
+    invocation: artifact
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [improve-codebase-architecture]
+  - id: domain-modeling
+    source: project
+    path: domain-modeling/SKILL.md
+    steps: [Solutioning/decisions]
+    purpose: Resolve vocabulary and record warranted architecture decisions inside the run.
+    inputs: [prd, existing-glossary, decision-question]
+    outputs: [glossary, decision]
+    invocation: interactive_relay
+    tools: [read, search, edit]
+    prerequisites: []
+    overlaps: [grill-with-docs]
+  - id: challenge-me
+    source: project
+    path: challenge-me/SKILL.md
+    steps: [Analyse/research-intent]
+    purpose: Stress-test an idea or design before accepting it.
+    inputs: [idea-or-design, evidence, constraints]
+    outputs: [interview-resume-notes]
+    invocation: interactive_relay
+    tools: [read, search]
+    prerequisites: []
+    overlaps: [grilling, grill-me, grilling-to-brief, grill-me-to-brief]

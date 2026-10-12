@@ -1,0 +1,14 @@
+name: rafiki
+version: 1.0.0
+description: Rafiki planning steward and producer agents with bundled runtime assets
+author: Dennis Triepke
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: agent-skills, antigravity, claude, codex, copilot, cursor, gemini, grok-build, hermes, kiro, opencode, vscode, windsurf
+targets:
+- copilot
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+scripts: {}

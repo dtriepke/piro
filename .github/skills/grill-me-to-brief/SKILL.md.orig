@@ -1,0 +1,22 @@
+---
+name: grill-me-to-brief
+description: Interview the user relentlessly about a plan or design, then write the agreed context brief for the current implementation run.
+---
+
+# Grill Me to Brief
+
+Interview me relentlessly about every aspect of this plan until we reach a shared understanding. Walk down each branch of the design tree, resolving dependencies between decisions one by one. For each question, provide your recommended answer.
+
+Ask the questions one at a time.
+
+If a question can be answered by exploring the codebase, explore the codebase instead.
+
+## Output
+
+When the interview is complete, consolidate the result into the context brief using the template at:
+
+`.agents/skills/start-rapid-flow/assets/context-brief-faq-{REQUEST-NAME}.md`
+
+Use the existing run ID; do not create a second run or store the brief outside that run directory. Preserve decisions, rationale, assumptions, unresolved questions, repository evidence, and confidence. Do not turn the brief into a PID, implementation plan, or solution specification.
+
+Do not modify any other file. Verify the file exists and report its path.
