@@ -21,6 +21,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          REPO: ${{ github.repository }}
         run: |
           node - <<'EOF'
           const https = require('https');
@@ -28,7 +29,7 @@ jobs:
           const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
           const NOTION_TOKEN = process.env.NOTION_TOKEN;
           const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
-          const REPO = 'your-org/acme-api';
+          const REPO = process.env.REPO;
 
           // Calculate date from 3 days ago
           const threeDaysAgo = new Date();
@@ -78,7 +79,7 @@ jobs:
                   },
                   "Date": { date: { start: new Date().toISOString().split('T')[0] } },
                   "Content": { rich_text: toRichTextBlocks(summary) },
-                  "Repository": { rich_text: [{ text: { content: 'acme-api' } }] },
+                  "Repository": { rich_text: [{ text: { content: REPO } }] },
                   "Period": { rich_text: [{ text: { content: 'Last 3 Days' } }] }
                 }
               });
@@ -111,6 +112,11 @@ jobs:
 
           async function main() {
             try {
+              if (!NOTION_TOKEN || !NOTION_DATABASE_ID) {
+                console.warn('Skipping Development Summary: NOTION_TOKEN and NOTION_DATABASE_ID secrets must be configured to publish it.');
+                return;
+              }
+
               console.log('Fetching PRs from last 3 days...');
               const prs = await fetchGitHub(
                 `/search/issues?q=repo:${REPO}+is:pr+updated:>=${dateString}&sort=updated&per_page=25`
@@ -124,7 +130,7 @@ jobs:
               console.log(`Found ${Array.isArray(commits) ? commits.length : 0} commits`);
 
               let summary = `## Development Summary - Last 3 Days\n\n`;
-              summary += `**Repository:** acme-api\n`;
+              summary += `**Repository:** ${REPO}\n`;
               summary += `**Generated:** ${new Date().toLocaleDateString('en-CA')}\n\n`;
 
               // Pull Requests section
